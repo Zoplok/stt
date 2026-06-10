@@ -80,7 +80,7 @@ export function EditorTopBar({ project, isSaving, onToggleAI, trackId, onRefresh
   };
 
   return (
-    <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5 glass shrink-0">
+    <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-card shrink-0">
       <Link
         href="/dashboard"
         className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors text-sm"
@@ -120,14 +120,14 @@ export function EditorTopBar({ project, isSaving, onToggleAI, trackId, onRefresh
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/8 transition-all disabled:opacity-50"
         >
           {isTranscribing ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" />
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-400" />
           ) : (
             <Mic className="w-3.5 h-3.5" />
           )}
           <span className="hidden sm:block">{isTranscribing ? "Transcribing…" : "Transcribe"}</span>
         </button>
         {showTranscribeOpts && (
-          <div className="absolute top-full mt-1 right-0 z-50 w-48 glass-heavy rounded-xl border border-white/10 py-1 shadow-2xl">
+          <div className="absolute top-full mt-1 right-0 z-50 w-48 bg-popover rounded-xl border border-border py-1 shadow-2xl">
             {(["WHISPER", "DEEPGRAM", "ASSEMBLYAI"] as const).map((p) => (
               <button
                 key={p}
@@ -155,13 +155,13 @@ export function EditorTopBar({ project, isSaving, onToggleAI, trackId, onRefresh
         <button
           onClick={() => setShowExport((v) => !v)}
           disabled={!trackId}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all disabled:opacity-40"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-all disabled:opacity-40"
         >
           <Download className="w-3.5 h-3.5" />
           <span className="hidden sm:block">Export</span>
         </button>
         {showExport && (
-          <div className="absolute top-full mt-1 right-0 z-50 w-36 glass-heavy rounded-xl border border-white/10 py-1 shadow-2xl">
+          <div className="absolute top-full mt-1 right-0 z-50 w-36 bg-popover rounded-xl border border-border py-1 shadow-2xl">
             {exportFormats.map((fmt) => (
               <button
                 key={fmt}

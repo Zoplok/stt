@@ -3,15 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { motion } from "framer-motion";
-import {
-  LayoutDashboard,
-  Settings,
-  PlayCircle,
-  Plus,
-  Keyboard,
-} from "lucide-react";
+import { LayoutDashboard, Settings, Plus, Captions } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -22,88 +17,89 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-dvh overflow-hidden" style={{ background: "#06060f" }}>
+    <div className="flex h-dvh overflow-hidden bg-background">
       {/* Sidebar */}
-      <aside className="flex flex-col w-14 lg:w-[220px] shrink-0 border-r border-white/[0.06]" style={{ background: "#07070e" }}>
+      <aside className="flex w-14 shrink-0 flex-col border-r border-border bg-sidebar lg:w-[210px]">
 
         {/* Logo */}
-        <div className="flex items-center gap-3 px-3 lg:px-4 h-14 border-b border-white/[0.06] shrink-0">
-          <div className="w-7 h-7 shrink-0 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-            <PlayCircle className="w-3.5 h-3.5 text-white" />
+        <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-3 lg:px-4">
+          <div className="relative flex h-7 w-7 shrink-0 items-center justify-center border border-border bg-card">
+            <Captions className="h-3.5 w-3.5 text-foreground" />
+            <span className="rec-dot absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-primary" />
           </div>
-          <span className="hidden lg:block text-[14px] font-semibold tracking-tight text-white">SubtitleAI</span>
+          <span className="hidden font-mono text-[11px] font-semibold tracking-[0.18em] text-foreground lg:block">
+            SUBTITLE.AI
+          </span>
         </div>
 
-        {/* New Project button */}
-        <div className="px-2 lg:px-3 pt-4 pb-2 shrink-0">
-          <Link
-            href="/dashboard?new=1"
-            className="flex items-center justify-center lg:justify-start gap-2.5 w-full px-2.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-all text-white text-[13px] font-semibold shadow-lg shadow-indigo-500/20"
-          >
-            <Plus className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden lg:block">New Project</span>
-          </Link>
-        </div>
-
-        {/* Section label */}
-        <div className="hidden lg:block px-4 pt-4 pb-1">
-          <span className="text-[10px] font-semibold text-white/20 uppercase tracking-[0.1em]">Menu</span>
+        {/* New project */}
+        <div className="shrink-0 p-2 lg:p-3">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="sm" className="w-full" asChild>
+                <Link href="/dashboard?new=1">
+                  <Plus />
+                  <span className="hidden lg:inline">New Project</span>
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="lg:hidden">New Project</TooltipContent>
+          </Tooltip>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 flex flex-col gap-0.5 px-2 py-1">
-          {navItems.map((item) => {
-            const active = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+        <nav className="flex flex-1 flex-col gap-1 px-2 pt-2 lg:px-3">
+          <span className="mb-1 hidden px-1 font-mono text-[9px] tracking-[0.25em] text-muted-foreground/60 lg:block">
+            MENU
+          </span>
+          {navItems.map((nav) => {
+            const active = pathname === nav.href || (nav.href !== "/dashboard" && pathname.startsWith(nav.href));
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "group relative flex items-center gap-3 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all",
-                  active
-                    ? "text-white"
-                    : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
-                )}
-              >
-                {active && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    className="absolute inset-0 rounded-lg bg-white/[0.07] border border-white/[0.08]"
-                    transition={{ type: "spring", bounce: 0.15, duration: 0.35 }}
-                  />
-                )}
-                <item.icon className={cn(
-                  "w-4 h-4 shrink-0 relative z-10 transition-colors",
-                  active ? "text-indigo-400" : "text-white/30 group-hover:text-white/60"
-                )} />
-                <span className="hidden lg:block relative z-10">{item.label}</span>
-              </Link>
+              <Tooltip key={nav.href}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={nav.href}
+                    className={cn(
+                      "flex items-center gap-2.5 border border-transparent px-2.5 py-2 text-[13px] font-medium transition-colors",
+                      active
+                        ? "border-border bg-card text-foreground"
+                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                    )}
+                  >
+                    <nav.icon className={cn("h-4 w-4 shrink-0", active && "text-primary")} />
+                    <span className="hidden lg:block">{nav.label}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="lg:hidden">{nav.label}</TooltipContent>
+              </Tooltip>
             );
           })}
         </nav>
 
-        {/* Keyboard shortcut hint */}
-        <div className="hidden lg:flex items-center gap-2 px-4 py-3 mx-2 mb-2 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-          <Keyboard className="w-3.5 h-3.5 text-white/20 shrink-0" />
-          <span className="text-[11px] text-white/20 leading-tight">Press <kbd className="font-mono bg-white/[0.06] px-1 py-0.5 rounded text-[10px]">?</kbd> for shortcuts</span>
+        {/* Status row */}
+        <div className="hidden shrink-0 items-center gap-2 border-t border-border px-4 py-3 lg:flex">
+          <span className="rec-dot h-1.5 w-1.5 rounded-full bg-primary" />
+          <span className="font-mono text-[9px] tracking-[0.2em] text-muted-foreground">ENGINES ONLINE</span>
         </div>
 
         {/* User */}
-        <div className="px-3 py-3 border-t border-white/[0.06] flex items-center justify-center lg:justify-start gap-2.5 shrink-0">
+        <div className="flex shrink-0 items-center justify-center gap-2.5 border-t border-border px-3 py-3 lg:justify-start">
           <UserButton
             appearance={{
               elements: {
-                avatarBox: "w-7 h-7 ring-1 ring-white/10 rounded-lg",
-                avatarImage: "rounded-lg",
+                avatarBox: "w-7 h-7 ring-1 ring-border rounded-none",
+                avatarImage: "rounded-none",
               },
             }}
           />
-          <span className="hidden lg:block text-[12px] text-white/35 font-medium truncate">My Account</span>
+          <span className="hidden truncate text-[12px] font-medium text-muted-foreground lg:block">
+            My Account
+          </span>
         </div>
       </aside>
 
       {/* Main */}
-      <main className="flex-1 overflow-auto min-w-0">
+      <main className="min-w-0 flex-1 overflow-auto">
         {children}
       </main>
     </div>

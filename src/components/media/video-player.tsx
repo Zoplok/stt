@@ -117,8 +117,8 @@ export function VideoPlayer({ mediaFile }: VideoPlayerProps) {
           <>
             {isAudioOnly ? (
               <div className="flex flex-col items-center justify-center gap-4 w-full px-8">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 flex items-center justify-center">
-                  <Volume2 className="w-10 h-10 text-indigo-400" />
+                <div className="w-24 h-24 border border-border bg-card flex items-center justify-center">
+                  <Volume2 className="w-10 h-10 text-emerald-400" />
                 </div>
                 <p className="text-sm text-white/40 text-center truncate max-w-[200px]">{mediaFile.originalName}</p>
               </div>
@@ -155,7 +155,7 @@ export function VideoPlayer({ mediaFile }: VideoPlayerProps) {
           onClick={handleSeek}
         >
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full relative"
+            className="h-full bg-emerald-500 rounded-full relative"
             style={{ width: `${progress}%` }}
           >
             <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 rounded-full bg-white shadow opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -204,7 +204,7 @@ export function VideoPlayer({ mediaFile }: VideoPlayerProps) {
             {/* Subtitles toggle */}
             <button
               onClick={toggleSubtitles}
-              className={cn("p-1.5 rounded-lg transition-all", showSubtitles ? "text-indigo-400 bg-indigo-500/15" : "text-white/50 hover:text-white hover:bg-white/8")}
+              className={cn("p-1.5 rounded-lg transition-all", showSubtitles ? "text-emerald-400 bg-emerald-500/15" : "text-white/50 hover:text-white hover:bg-white/8")}
             >
               <Subtitles className="w-4 h-4" />
             </button>

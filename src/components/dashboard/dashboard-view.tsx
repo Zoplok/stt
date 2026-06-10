@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Plus,
   FileVideo,
-  Clock,
   CheckCircle2,
   AlertCircle,
   Loader2,
@@ -17,15 +16,24 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { cn, formatDuration } from "@/lib/utils";
 import { UploadZone } from "@/components/media/upload-zone";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { Project } from "@/types";
 
 type ProjectStatus = "DRAFT" | "PROCESSING" | "READY" | "ERROR";
 
-const statusConfig: Record<ProjectStatus, { icon: React.ElementType; label: string; color: string }> = {
-  DRAFT: { icon: FileVideo, label: "Draft", color: "text-white/40" },
-  PROCESSING: { icon: Loader2, label: "Processing", color: "text-blue-400" },
-  READY: { icon: CheckCircle2, label: "Ready", color: "text-emerald-400" },
-  ERROR: { icon: AlertCircle, label: "Error", color: "text-red-400" },
+const statusConfig: Record<ProjectStatus, { icon: React.ElementType; label: string; className: string }> = {
+  DRAFT: { icon: FileVideo, label: "DRAFT", className: "text-muted-foreground border-border" },
+  PROCESSING: { icon: Loader2, label: "PROCESSING", className: "text-foreground border-border" },
+  READY: { icon: CheckCircle2, label: "READY", className: "text-primary border-primary/30" },
+  ERROR: { icon: AlertCircle, label: "ERROR", className: "text-destructive border-destructive/30" },
 };
 
 function ProjectCard({ project, onDelete }: { project: Project; onDelete: (id: string) => void }) {
@@ -37,64 +45,59 @@ function ProjectCard({ project, onDelete }: { project: Project; onDelete: (id: s
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      transition={{ duration: 0.2 }}
-      className="group relative rounded-xl border border-white/[0.07] overflow-hidden hover:border-white/[0.12] transition-all"
-      style={{ background: "#0a0a14" }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.18 }}
+      className="group relative overflow-hidden border border-border bg-card transition-colors hover:border-muted-foreground/30"
     >
       {/* Thumbnail */}
-      <div className="relative aspect-video bg-black/40 overflow-hidden">
+      <div className="relative aspect-video overflow-hidden border-b border-border bg-black">
         {thumb ? (
-          <img src={thumb} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          <img src={thumb} alt={project.title} className="h-full w-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <FileVideo className="w-8 h-8 text-white/10" />
+          <div className="flex h-full w-full items-center justify-center">
+            <FileVideo className="h-8 w-8 text-muted-foreground/30" />
           </div>
         )}
 
         {duration != null && (
-          <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/70 text-[10px] text-white/70 font-mono backdrop-blur-sm">
+          <div className="absolute right-2 bottom-2 bg-background/90 px-1.5 py-0.5 font-mono text-[10px] text-foreground/70">
             {formatDuration(duration)}
           </div>
         )}
 
         {project.status === "PROCESSING" && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
-            <Loader2 className="w-6 h-6 text-indigo-400 animate-spin" />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/60 backdrop-blur-[2px] flex items-center justify-center gap-2">
-          <Link
-            href={`/projects/${project.id}`}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[12px] font-semibold transition-colors shadow-lg"
-          >
-            <ExternalLink className="w-3 h-3" /> Open
-          </Link>
-          <button
-            onClick={() => onDelete(project.id)}
-            className="p-2 rounded-lg bg-white/[0.08] hover:bg-red-500/20 text-white/50 hover:text-red-400 transition-colors"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </button>
+        {/* Hover actions */}
+        <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/70 opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+          <Button size="xs" asChild>
+            <Link href={`/projects/${project.id}`}>
+              <ExternalLink data-icon="inline-start" /> Open
+            </Link>
+          </Button>
+          <Button size="icon-xs" variant="destructive" onClick={() => onDelete(project.id)}>
+            <Trash2 />
+          </Button>
         </div>
       </div>
 
       {/* Body */}
       <div className="px-3.5 py-3">
-        <div className="flex items-start justify-between gap-2 mb-1.5">
-          <h3 className="text-[13px] font-medium text-white leading-snug line-clamp-1">{project.title}</h3>
-          <div className={cn("flex items-center gap-1 shrink-0 mt-0.5", status.color)}>
-            <StatusIcon className={cn("w-3 h-3", project.status === "PROCESSING" && "animate-spin")} />
-            <span className="text-[10px] font-medium">{status.label}</span>
-          </div>
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <h3 className="line-clamp-1 text-[13px] font-medium text-foreground">{project.title}</h3>
+          <Badge variant="outline" className={cn("shrink-0 gap-1 rounded-none font-mono text-[9px] tracking-[0.12em]", status.className)}>
+            <StatusIcon className={cn("h-2.5 w-2.5", project.status === "PROCESSING" && "animate-spin")} />
+            {status.label}
+          </Badge>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] text-white/25">{formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}</span>
-          <span className="text-[11px] text-white/25">{project.subtitleTracks?.length ?? 0} track{project.subtitleTracks?.length !== 1 ? "s" : ""}</span>
+        <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground/70">
+          <span>{formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true }).toUpperCase()}</span>
+          <span>{project.subtitleTracks?.length ?? 0} TRK</span>
         </div>
       </div>
     </motion.div>
@@ -103,11 +106,11 @@ function ProjectCard({ project, onDelete }: { project: Project; onDelete: (id: s
 
 function SkeletonCard() {
   return (
-    <div className="rounded-xl border border-white/[0.06] overflow-hidden" style={{ background: "#0a0a14" }}>
-      <div className="aspect-video skeleton" />
-      <div className="px-3.5 py-3 space-y-2">
-        <div className="h-3.5 skeleton rounded w-3/4" />
-        <div className="h-2.5 skeleton rounded w-1/3" />
+    <div className="overflow-hidden border border-border bg-card">
+      <Skeleton className="aspect-video rounded-none" />
+      <div className="space-y-2 px-3.5 py-3">
+        <Skeleton className="h-3.5 w-3/4 rounded-none" />
+        <Skeleton className="h-2.5 w-1/3 rounded-none" />
       </div>
     </div>
   );
@@ -160,38 +163,40 @@ export function DashboardView() {
     await fetchProjects();
   };
 
-  const readyCount = projects.filter((p) => p.status === "READY").length;
+  const counts = {
+    total: projects.length,
+    ready: projects.filter((p) => p.status === "READY").length,
+    processing: projects.filter((p) => p.status === "PROCESSING").length,
+    draft: projects.filter((p) => p.status === "DRAFT").length,
+  };
 
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 h-14 border-b border-white/[0.06] shrink-0">
+      <div className="flex h-14 shrink-0 items-center justify-between border-b border-border px-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-[14px] font-semibold text-white">Projects</h1>
-          <span className="px-2 py-0.5 rounded-md bg-white/[0.06] text-[11px] font-medium text-white/40 tabular-nums">
-            {projects.length}
-          </span>
+          <h1 className="font-mono text-[12px] font-semibold tracking-[0.2em] text-foreground">PROJECTS</h1>
+          <Badge variant="secondary" className="rounded-none font-mono text-[10px] tabular-nums">
+            {counts.total}
+          </Badge>
         </div>
-        <button
-          onClick={() => setShowUpload(true)}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-semibold transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-px"
-        >
-          <Plus className="w-3.5 h-3.5" /> New Project
-        </button>
+        <Button size="xs" onClick={() => setShowUpload(true)}>
+          <Plus data-icon="inline-start" /> New Project
+        </Button>
       </div>
 
       {/* Stats strip */}
       {!isLoading && projects.length > 0 && (
-        <div className="flex items-center gap-6 px-6 py-3 border-b border-white/[0.04] shrink-0">
+        <div className="flex shrink-0 items-center gap-6 border-b border-border px-6 py-2.5">
           {[
-            { label: "Total", value: projects.length },
-            { label: "Ready", value: readyCount, color: "text-emerald-400" },
-            { label: "Processing", value: projects.filter(p => p.status === "PROCESSING").length, color: "text-blue-400" },
-            { label: "Draft", value: projects.filter(p => p.status === "DRAFT").length },
+            { label: "TOTAL", value: counts.total, className: "text-foreground" },
+            { label: "READY", value: counts.ready, className: "text-primary" },
+            { label: "PROCESSING", value: counts.processing, className: "text-foreground" },
+            { label: "DRAFT", value: counts.draft, className: "text-muted-foreground" },
           ].map((s) => (
-            <div key={s.label} className="flex items-center gap-1.5">
-              <span className={`text-[13px] font-semibold tabular-nums ${s.color ?? "text-white"}`}>{s.value}</span>
-              <span className="text-[11px] text-white/30">{s.label}</span>
+            <div key={s.label} className="flex items-baseline gap-1.5">
+              <span className={cn("font-mono text-[13px] font-semibold tabular-nums", s.className)}>{s.value}</span>
+              <span className="font-mono text-[9px] tracking-[0.2em] text-muted-foreground/60">{s.label}</span>
             </div>
           ))}
         </div>
@@ -200,63 +205,42 @@ export function DashboardView() {
       {/* Content */}
       <div className="flex-1 overflow-auto p-6">
 
-        {/* Upload modal */}
-        <AnimatePresence>
-          {showUpload && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
-              onClick={(e) => e.target === e.currentTarget && setShowUpload(false)}
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96, y: 12 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96, y: 12 }}
-                transition={{ duration: 0.2 }}
-                className="w-full max-w-md rounded-2xl border border-white/[0.1] p-6"
-                style={{ background: "#0d0d18" }}
-              >
-                <div className="flex items-center justify-between mb-5">
-                  <h2 className="text-[15px] font-semibold text-white">Upload media</h2>
-                  <button onClick={() => setShowUpload(false)} className="text-white/30 hover:text-white/70 transition-colors text-lg leading-none">✕</button>
-                </div>
-                <UploadZone onComplete={handleUploadComplete} />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Upload dialog */}
+        <Dialog open={showUpload} onOpenChange={setShowUpload}>
+          <DialogContent className="rounded-none sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="font-mono text-[13px] tracking-[0.15em]">UPLOAD MEDIA</DialogTitle>
+            </DialogHeader>
+            <UploadZone onComplete={handleUploadComplete} />
+          </DialogContent>
+        </Dialog>
 
         {/* Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : projects.length === 0 ? (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center justify-center min-h-[60vh] text-center"
+            className="flex min-h-[60vh] flex-col items-center justify-center text-center"
           >
-            <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mb-5">
-              <Upload className="w-6 h-6 text-white/20" />
+            <div className="mb-5 flex h-14 w-14 items-center justify-center border border-border bg-card">
+              <Upload className="h-5 w-5 text-muted-foreground/50" />
             </div>
-            <h2 className="text-[16px] font-semibold text-white mb-2">No projects yet</h2>
-            <p className="text-[13px] text-white/35 mb-6 max-w-[260px] leading-relaxed">
+            <h2 className="font-mono text-[13px] font-semibold tracking-[0.15em] text-foreground">NO PROJECTS</h2>
+            <p className="mt-2 mb-6 max-w-[260px] text-[13px] leading-relaxed text-muted-foreground">
               Upload a video or audio file to get AI-generated subtitles in seconds.
             </p>
-            <button
-              onClick={() => setShowUpload(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-semibold transition-all shadow-xl shadow-indigo-500/20"
-            >
-              <Plus className="w-3.5 h-3.5" /> Upload your first file
-            </button>
+            <Button size="sm" onClick={() => setShowUpload(true)}>
+              <Plus data-icon="inline-start" /> Upload your first file
+            </Button>
           </motion.div>
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"
+            className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
             <AnimatePresence mode="popLayout">
               {projects.map((project) => (

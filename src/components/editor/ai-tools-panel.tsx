@@ -83,14 +83,14 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
     <div className="flex flex-col h-full overflow-y-auto">
       <div className="px-4 py-3 border-b border-white/5 shrink-0">
         <h2 className="text-sm font-semibold flex items-center gap-2">
-          <Wand2 className="w-4 h-4 text-indigo-400" />
+          <Wand2 className="w-4 h-4 text-emerald-400" />
           AI Tools
         </h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {/* Translate */}
-        <div className="glass rounded-xl p-3 space-y-2">
+        <div className="bg-card border border-border rounded-xl p-3 space-y-2">
           <div className="flex items-center gap-2 text-xs font-medium text-white/60 mb-1">
             <Globe2 className="w-3.5 h-3.5" />
             Translate
@@ -98,7 +98,7 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
           <select
             value={translateLang}
             onChange={(e) => setTranslateLang(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white outline-none focus:ring-1 focus:ring-indigo-500/40"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white outline-none focus:ring-1 focus:ring-emerald-500/40"
           >
             {LANGUAGES.map((l) => (
               <option key={l.code} value={l.code} className="bg-zinc-900">
@@ -109,7 +109,7 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
           <button
             onClick={runTranslate}
             disabled={loading === "translate"}
-            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 text-sm font-medium transition-all disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 text-sm font-medium transition-all disabled:opacity-50"
           >
             {loading === "translate" ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -122,7 +122,7 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
 
         {/* AI tools */}
         {tools.map((tool) => (
-          <div key={tool.id} className="glass rounded-xl p-3 space-y-2">
+          <div key={tool.id} className="bg-card border border-border rounded-xl p-3 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <tool.icon className="w-3.5 h-3.5 text-white/50" />
@@ -158,7 +158,7 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
                       <div className="space-y-1">
                         {(results[tool.id] as { time: number; title: string }[]).map((c, i) => (
                           <div key={i} className="flex gap-2">
-                            <span className="text-indigo-400/60 font-mono shrink-0">
+                            <span className="text-emerald-400/60 font-mono shrink-0">
                               {Math.floor(c.time / 60)}:{String(Math.floor(c.time % 60)).padStart(2, "0")}
                             </span>
                             <span>{c.title}</span>
@@ -170,7 +170,7 @@ export function AIToolsPanel({ projectId, trackId }: AIToolsPanelProps) {
                       <div className="space-y-2">
                         <div className="flex flex-wrap gap-1">
                           {((results[tool.id] as { hashtags?: string[] })?.hashtags ?? []).map((h, i) => (
-                            <span key={i} className="px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 text-[10px]">{h}</span>
+                            <span key={i} className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px]">{h}</span>
                           ))}
                         </div>
                         <p className="text-white/40 italic">{(results[tool.id] as { description?: string })?.description}</p>

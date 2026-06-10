@@ -128,7 +128,7 @@ export function UploadZone({ onComplete, maxSizeMB = 2048 }: UploadZoneProps) {
       className={cn(
         "relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all cursor-pointer min-h-48 p-8",
         state === "dragging"
-          ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
+          ? "border-emerald-500 bg-emerald-500/10 scale-[1.01]"
           : state === "uploading" || state === "done"
           ? "border-white/10 cursor-default"
           : state === "error"
@@ -154,8 +154,8 @@ export function UploadZone({ onComplete, maxSizeMB = 2048 }: UploadZoneProps) {
             className="flex flex-col items-center gap-3 text-center"
           >
             <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-colors",
-              state === "dragging" ? "bg-indigo-500/20" : "bg-white/5")}>
-              <Upload className={cn("w-6 h-6 transition-colors", state === "dragging" ? "text-indigo-400" : "text-white/40")} />
+              state === "dragging" ? "bg-emerald-500/20" : "bg-white/5")}>
+              <Upload className={cn("w-6 h-6 transition-colors", state === "dragging" ? "text-emerald-400" : "text-white/40")} />
             </div>
             <div>
               <p className="text-sm font-medium text-white/70">
@@ -172,7 +172,7 @@ export function UploadZone({ onComplete, maxSizeMB = 2048 }: UploadZoneProps) {
             exit={{ opacity: 0 }}
             className="w-full flex flex-col items-center gap-4"
           >
-            <FileVideo className="w-8 h-8 text-indigo-400" />
+            <FileVideo className="w-8 h-8 text-emerald-400" />
             <div className="w-full">
               <div className="flex justify-between text-xs text-white/50 mb-2">
                 <span className="truncate max-w-[200px]">{fileName}</span>
@@ -180,7 +180,7 @@ export function UploadZone({ onComplete, maxSizeMB = 2048 }: UploadZoneProps) {
               </div>
               <div className="w-full h-1.5 bg-white/8 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full"
+                  className="h-full bg-emerald-500 rounded-full"
                   animate={{ width: `${progress}%` }}
                   transition={{ ease: "easeOut" }}
                 />
@@ -217,7 +217,7 @@ export function UploadZone({ onComplete, maxSizeMB = 2048 }: UploadZoneProps) {
             <p className="text-xs text-white/40 max-w-[280px]">{errorMsg}</p>
             <button
               onClick={(e) => { e.stopPropagation(); reset(); }}
-              className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors underline"
+              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors underline"
             >
               Try again
             </button>

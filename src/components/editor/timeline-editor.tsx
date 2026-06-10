@@ -195,10 +195,10 @@ export function TimelineEditor({ duration }: TimelineEditorProps) {
             {/* Playhead */}
             {playheadX >= 0 && playheadX <= containerWidth && (
               <div
-                className="absolute top-0 bottom-0 w-0.5 bg-indigo-500 z-20 pointer-events-none"
+                className="absolute top-0 bottom-0 w-0.5 bg-emerald-500 z-20 pointer-events-none"
                 style={{ left: timeToX(currentTime) }}
               >
-                <div className="w-2 h-2 bg-indigo-500 rounded-full -translate-x-[3px] -translate-y-[2px]" />
+                <div className="w-2 h-2 bg-emerald-500 rounded-full -translate-x-[3px] -translate-y-[2px]" />
               </div>
             )}
 
@@ -216,7 +216,7 @@ export function TimelineEditor({ duration }: TimelineEditorProps) {
                   className={cn(
                     "absolute top-2 rounded-md border text-[10px] font-medium text-white overflow-hidden select-none cursor-grab active:cursor-grabbing",
                     isSelected
-                      ? "bg-indigo-500/40 border-indigo-400/60"
+                      ? "bg-emerald-500/30 border-emerald-400/60"
                       : "bg-white/10 border-white/15 hover:bg-white/15"
                   )}
                   style={{
@@ -228,14 +228,14 @@ export function TimelineEditor({ duration }: TimelineEditorProps) {
                 >
                   {/* Left resize handle */}
                   <div
-                    className="absolute left-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-indigo-500/40 transition-colors z-10"
+                    className="absolute left-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-emerald-500/40 transition-colors z-10"
                     onMouseDown={(e) => { e.stopPropagation(); handleSegmentMouseDown(e, seg.id, "start"); }}
                   />
                   {/* Text */}
                   <span className="block px-3 py-1 leading-tight truncate text-white/70">{seg.text}</span>
                   {/* Right resize handle */}
                   <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-indigo-500/40 transition-colors z-10"
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-emerald-500/40 transition-colors z-10"
                     onMouseDown={(e) => { e.stopPropagation(); handleSegmentMouseDown(e, seg.id, "end"); }}
                   />
                 </div>

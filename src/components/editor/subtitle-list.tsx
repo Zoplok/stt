@@ -55,7 +55,7 @@ function SegmentRow({
       onDoubleClick={() => onDoubleClick(segment.id)}
       className={cn(
         "group flex gap-3 px-4 py-3 border-b border-white/4 cursor-pointer transition-all relative",
-        isActive && "bg-indigo-500/8 border-l-2 border-l-indigo-500",
+        isActive && "bg-emerald-500/8 border-l-2 border-l-emerald-500",
         isSelected && !isActive && "bg-white/5",
         !isActive && !isSelected && "hover:bg-white/3"
       )}
@@ -65,14 +65,14 @@ function SegmentRow({
         <span className="text-xs font-mono text-white/25 w-7 text-right">{segment.index + 1}</span>
         <button
           onClick={(e) => { e.stopPropagation(); onSeek(segment.startTime); }}
-          className="text-[10px] font-mono text-white/30 hover:text-indigo-400 transition-colors leading-none"
+          className="text-[10px] font-mono text-white/30 hover:text-emerald-400 transition-colors leading-none"
         >
           {formatTime(segment.startTime).replace(".", ",")}
         </button>
         <span className="text-[10px] font-mono text-white/20 leading-none">→</span>
         <button
           onClick={(e) => { e.stopPropagation(); onSeek(segment.endTime); }}
-          className="text-[10px] font-mono text-white/30 hover:text-indigo-400 transition-colors leading-none"
+          className="text-[10px] font-mono text-white/30 hover:text-emerald-400 transition-colors leading-none"
         >
           {formatTime(segment.endTime).replace(".", ",")}
         </button>
@@ -81,7 +81,7 @@ function SegmentRow({
       {/* Text */}
       <div className="flex-1 min-w-0">
         {segment.speaker && (
-          <span className="text-[10px] font-medium text-indigo-400/70 uppercase tracking-wide block mb-1">
+          <span className="text-[10px] font-medium text-emerald-400/70 uppercase tracking-wide block mb-1">
             {segment.speaker}
           </span>
         )}
@@ -96,7 +96,7 @@ function SegmentRow({
             }}
             onClick={(e) => e.stopPropagation()}
             rows={2}
-            className="w-full bg-transparent text-sm text-white leading-relaxed resize-none outline-none ring-1 ring-indigo-500/40 rounded-lg p-1.5"
+            className="w-full bg-transparent text-sm text-white leading-relaxed resize-none outline-none ring-1 ring-emerald-500/40 rounded-lg p-1.5"
           />
         ) : (
           <p className="text-sm text-white/80 leading-relaxed">{segment.text}</p>
@@ -207,7 +207,7 @@ export function SubtitleList() {
           placeholder="Search subtitles…"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1 text-sm bg-white/5 rounded-lg px-3 py-1.5 text-white placeholder:text-white/25 outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
+          className="flex-1 text-sm bg-white/5 rounded-lg px-3 py-1.5 text-white placeholder:text-white/25 outline-none focus:ring-1 focus:ring-emerald-500/40 transition-all"
         />
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-1">

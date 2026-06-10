@@ -81,7 +81,7 @@ export function ProjectEditorView({ projectId }: ProjectEditorViewProps) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+          <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
           <p className="text-sm text-white/40">Loading project…</p>
         </div>
       </div>

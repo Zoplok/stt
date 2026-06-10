@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080810",
+  themeColor: "#09090b",
   colorScheme: "dark",
 };
 
@@ -52,11 +54,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${geistSans.variable} ${geistMono.variable}`}
+        className={cn(geistSans.variable, geistMono.variable, "dark font-sans")}
         suppressHydrationWarning
       >
         <body className="bg-background text-foreground antialiased min-h-dvh">
-          {children}
+          <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
         </body>
       </html>
     </ClerkProvider>
