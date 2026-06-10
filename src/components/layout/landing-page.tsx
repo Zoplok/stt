@@ -213,7 +213,7 @@ export function LandingPage() {
             </div>
 
             <CardContent className="p-0">
-              <div className="flex" style={{ height: "320px" }}>
+              <div className="flex h-[240px] md:h-[320px]">
                 {/* Program monitor */}
                 <div className="relative flex flex-1 items-center justify-center border-r border-border bg-black">
                   <div className="flex h-14 w-14 items-center justify-center border border-border">
@@ -227,7 +227,7 @@ export function LandingPage() {
                 </div>
 
                 {/* Caption list */}
-                <div className="hidden w-64 flex-col sm:flex">
+                <div className="hidden w-64 flex-col md:flex">
                   <div className="border-b border-border px-3 py-2 font-mono text-[9px] tracking-[0.2em] text-muted-foreground">
                     CAPTIONS — EN
                   </div>
@@ -253,11 +253,11 @@ export function LandingPage() {
 
               {/* Timeline + waveform */}
               <div className="border-t border-border bg-muted/20 px-4 py-3">
-                <div className="mb-2 flex items-end gap-px">
+                <div className="mb-2 flex items-end gap-px overflow-hidden">
                   {[12, 18, 8, 22, 14, 26, 10, 19, 24, 9, 16, 21, 12, 25, 8, 17, 23, 11, 20, 15, 26, 10, 18, 13, 22, 9, 24, 16, 11, 19, 14, 25, 8, 21, 17, 12, 23, 10, 20, 15].map((h, i) => (
                     <div
                       key={i}
-                      className={`w-1.5 shrink-0 ${i >= 16 && i <= 22 ? "bg-primary/70" : "bg-muted-foreground/25"}`}
+                      className={`min-w-0 flex-1 ${i >= 16 && i <= 22 ? "bg-primary/70" : "bg-muted-foreground/25"}`}
                       style={{ height: h }}
                     />
                   ))}
@@ -266,10 +266,10 @@ export function LandingPage() {
                   {[14, 22, 10, 26, 16, 20, 12, 24, 15, 18].map((w, i) => (
                     <div
                       key={i}
-                      className={`h-4 shrink-0 border ${
+                      className={`h-4 min-w-0 border ${
                         i === 3 ? "border-primary/60 bg-primary/15" : "border-border bg-muted/60"
                       }`}
-                      style={{ width: w * 4 }}
+                      style={{ flexGrow: w }}
                     />
                   ))}
                 </div>
