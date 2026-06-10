@@ -16,16 +16,16 @@
 }
 
 :root {
-  --background: #080810;
-  --foreground: #f0f0ff;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-hover: rgba(255, 255, 255, 0.07);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-subtle: rgba(255, 255, 255, 0.05);
+  --background: #06060f;
+  --foreground: #ededff;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.065);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
   --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --muted: rgba(255, 255, 255, 0.08);
-  --muted-foreground: rgba(255, 255, 255, 0.45);
+  --accent-hover: #7c7ff5;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: rgba(255, 255, 255, 0.4);
 
   --radius: 0.75rem;
   --radius-sm: 0.5rem;

@@ -37,63 +37,65 @@ function ProjectCard({ project, onDelete }: { project: Project; onDelete: (id: s
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      className="group relative glass rounded-2xl gradient-border overflow-hidden hover:bg-white/5 transition-all"
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.2 }}
+      className="group relative rounded-xl border border-white/[0.07] overflow-hidden hover:border-white/[0.12] transition-all"
+      style={{ background: "#0a0a14" }}
     >
       {/* Thumbnail */}
-      <div className="relative aspect-video bg-white/4 overflow-hidden">
+      <div className="relative aspect-video bg-black/40 overflow-hidden">
         {thumb ? (
-          <img src={thumb} alt={project.title} className="w-full h-full object-cover" />
+          <img src={thumb} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <FileVideo className="w-10 h-10 text-white/15" />
+            <FileVideo className="w-8 h-8 text-white/10" />
           </div>
         )}
 
         {duration != null && (
-          <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/60 text-xs text-white/80 font-mono">
+          <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/70 text-[10px] text-white/70 font-mono backdrop-blur-sm">
             {formatDuration(duration)}
           </div>
         )}
 
         {project.status === "PROCESSING" && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+          <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
+            <Loader2 className="w-6 h-6 text-indigo-400 animate-spin" />
           </div>
         )}
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-black/60 backdrop-blur-[2px] flex items-center justify-center gap-2">
+          <Link
+            href={`/projects/${project.id}`}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[12px] font-semibold transition-colors shadow-lg"
+          >
+            <ExternalLink className="w-3 h-3" /> Open
+          </Link>
+          <button
+            onClick={() => onDelete(project.id)}
+            className="p-2 rounded-lg bg-white/[0.08] hover:bg-red-500/20 text-white/50 hover:text-red-400 transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
 
       {/* Body */}
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-medium text-sm leading-snug line-clamp-2">{project.title}</h3>
-          <div className={cn("flex items-center gap-1 shrink-0", status.color)}>
-            <StatusIcon className={cn("w-3.5 h-3.5", project.status === "PROCESSING" && "animate-spin")} />
+      <div className="px-3.5 py-3">
+        <div className="flex items-start justify-between gap-2 mb-1.5">
+          <h3 className="text-[13px] font-medium text-white leading-snug line-clamp-1">{project.title}</h3>
+          <div className={cn("flex items-center gap-1 shrink-0 mt-0.5", status.color)}>
+            <StatusIcon className={cn("w-3 h-3", project.status === "PROCESSING" && "animate-spin")} />
+            <span className="text-[10px] font-medium">{status.label}</span>
           </div>
         </div>
-
-        <div className="flex items-center justify-between text-xs text-white/40">
-          <span>{formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}</span>
-          <span>{project.subtitleTracks?.length ?? 0} track{project.subtitleTracks?.length !== 1 ? "s" : ""}</span>
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] text-white/25">{formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}</span>
+          <span className="text-[11px] text-white/25">{project.subtitleTracks?.length ?? 0} track{project.subtitleTracks?.length !== 1 ? "s" : ""}</span>
         </div>
-      </div>
-
-      {/* Hover actions */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 bg-black/50">
-        <Link
-          href={`/projects/${project.id}`}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
-        >
-          <ExternalLink className="w-3.5 h-3.5" /> Open
-        </Link>
-        <button
-          onClick={() => onDelete(project.id)}
-          className="p-2 rounded-lg bg-white/10 hover:bg-red-500/20 text-white/60 hover:text-red-400 transition-colors"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
       </div>
     </motion.div>
   );
@@ -101,11 +103,11 @@ function ProjectCard({ project, onDelete }: { project: Project; onDelete: (id: s
 
 function SkeletonCard() {
   return (
-    <div className="glass rounded-2xl overflow-hidden">
+    <div className="rounded-xl border border-white/[0.06] overflow-hidden" style={{ background: "#0a0a14" }}>
       <div className="aspect-video skeleton" />
-      <div className="p-4 space-y-2">
-        <div className="h-4 skeleton rounded w-3/4" />
-        <div className="h-3 skeleton rounded w-1/2" />
+      <div className="px-3.5 py-3 space-y-2">
+        <div className="h-3.5 skeleton rounded w-3/4" />
+        <div className="h-2.5 skeleton rounded w-1/3" />
       </div>
     </div>
   );
@@ -158,90 +160,112 @@ export function DashboardView() {
     await fetchProjects();
   };
 
+  const readyCount = projects.filter((p) => p.status === "READY").length;
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Projects</h1>
-          <p className="text-sm text-white/40 mt-1">
-            {projects.length} project{projects.length !== 1 ? "s" : ""}
-          </p>
+    <div className="flex flex-col h-full min-h-0">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 h-14 border-b border-white/[0.06] shrink-0">
+        <div className="flex items-center gap-3">
+          <h1 className="text-[14px] font-semibold text-white">Projects</h1>
+          <span className="px-2 py-0.5 rounded-md bg-white/[0.06] text-[11px] font-medium text-white/40 tabular-nums">
+            {projects.length}
+          </span>
         </div>
         <button
           onClick={() => setShowUpload(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all hover:shadow-lg hover:shadow-indigo-500/25 hover:-translate-y-0.5"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-semibold transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-px"
         >
-          <Plus className="w-4 h-4" /> New Project
+          <Plus className="w-3.5 h-3.5" /> New Project
         </button>
       </div>
 
-      {/* Upload modal */}
-      <AnimatePresence>
-        {showUpload && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-            onClick={(e) => e.target === e.currentTarget && setShowUpload(false)}
-          >
+      {/* Stats strip */}
+      {!isLoading && projects.length > 0 && (
+        <div className="flex items-center gap-6 px-6 py-3 border-b border-white/[0.04] shrink-0">
+          {[
+            { label: "Total", value: projects.length },
+            { label: "Ready", value: readyCount, color: "text-emerald-400" },
+            { label: "Processing", value: projects.filter(p => p.status === "PROCESSING").length, color: "text-blue-400" },
+            { label: "Draft", value: projects.filter(p => p.status === "DRAFT").length },
+          ].map((s) => (
+            <div key={s.label} className="flex items-center gap-1.5">
+              <span className={`text-[13px] font-semibold tabular-nums ${s.color ?? "text-white"}`}>{s.value}</span>
+              <span className="text-[11px] text-white/30">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="flex-1 overflow-auto p-6">
+
+        {/* Upload modal */}
+        <AnimatePresence>
+          {showUpload && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              className="w-full max-w-lg glass-heavy rounded-2xl gradient-border p-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+              onClick={(e) => e.target === e.currentTarget && setShowUpload(false)}
             >
-              <h2 className="text-lg font-semibold mb-4">Upload Media</h2>
-              <UploadZone onComplete={handleUploadComplete} />
-              <button
-                onClick={() => setShowUpload(false)}
-                className="mt-4 w-full py-2 rounded-xl text-sm text-white/40 hover:text-white transition-colors"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 12 }}
+                transition={{ duration: 0.2 }}
+                className="w-full max-w-md rounded-2xl border border-white/[0.1] p-6"
+                style={{ background: "#0d0d18" }}
               >
-                Cancel
-              </button>
+                <div className="flex items-center justify-between mb-5">
+                  <h2 className="text-[15px] font-semibold text-white">Upload media</h2>
+                  <button onClick={() => setShowUpload(false)} className="text-white/30 hover:text-white/70 transition-colors text-lg leading-none">✕</button>
+                </div>
+                <UploadZone onComplete={handleUploadComplete} />
+              </motion.div>
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Grid */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : projects.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center min-h-[60vh] text-center"
+          >
+            <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mb-5">
+              <Upload className="w-6 h-6 text-white/20" />
+            </div>
+            <h2 className="text-[16px] font-semibold text-white mb-2">No projects yet</h2>
+            <p className="text-[13px] text-white/35 mb-6 max-w-[260px] leading-relaxed">
+              Upload a video or audio file to get AI-generated subtitles in seconds.
+            </p>
+            <button
+              onClick={() => setShowUpload(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-semibold transition-all shadow-xl shadow-indigo-500/20"
+            >
+              <Plus className="w-3.5 h-3.5" /> Upload your first file
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"
+          >
+            <AnimatePresence mode="popLayout">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} onDelete={handleDelete} />
+              ))}
+            </AnimatePresence>
           </motion.div>
         )}
-      </AnimatePresence>
-
-      {/* Grid */}
-      {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
-        </div>
-      ) : projects.length === 0 ? (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col items-center justify-center min-h-[50vh] text-center"
-        >
-          <div className="w-20 h-20 rounded-2xl bg-white/4 flex items-center justify-center mb-4">
-            <Upload className="w-8 h-8 text-white/20" />
-          </div>
-          <h2 className="text-xl font-semibold mb-2">No projects yet</h2>
-          <p className="text-white/40 text-sm mb-6 max-w-xs">
-            Upload a video or audio file to generate AI subtitles in seconds.
-          </p>
-          <button
-            onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all"
-          >
-            <Plus className="w-4 h-4" /> Upload your first file
-          </button>
-        </motion.div>
-      ) : (
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} onDelete={handleDelete} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      )}
+      </div>
     </div>
   );
 }
