@@ -132,14 +132,14 @@ export function LandingPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="mx-auto max-w-6xl px-6 pt-24 pb-16">
-        <div className="max-w-3xl">
+      <section className="mx-auto max-w-6xl px-6 pt-28 pb-24 md:pt-36">
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
           >
-            <Badge variant="outline" className="gap-2 font-mono text-[10px] tracking-[0.15em]">
+            <Badge variant="outline" className="gap-2 px-3 py-1.5 font-mono text-[10px] tracking-[0.15em]">
               <span className="rec-dot h-1.5 w-1.5 rounded-full bg-primary" />
               REC — TRANSCRIPTION ENGINE ONLINE
             </Badge>
@@ -149,7 +149,7 @@ export function LandingPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08 }}
-            className="mt-8 text-[clamp(2.6rem,7vw,4.8rem)] leading-[1.04] font-bold tracking-[-0.03em] text-foreground"
+            className="mt-10 text-[clamp(2.6rem,6.5vw,4.6rem)] leading-[1.1] font-bold tracking-[-0.03em] text-foreground"
           >
             Studio-grade subtitles.
             <br />
@@ -160,7 +160,7 @@ export function LandingPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.16 }}
-            className="mt-6 max-w-xl text-[16px] leading-[1.7] text-muted-foreground"
+            className="mt-8 max-w-[540px] text-[17px] leading-[1.8] text-muted-foreground"
           >
             Upload any video or audio. Three AI engines transcribe it in under two minutes.
             Cut, time, translate, and ship — from one timeline.
@@ -170,7 +170,7 @@ export function LandingPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.22 }}
-            className="mt-10 flex items-center gap-3"
+            className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
           >
             {isSignedIn ? (
               <Button size="lg" asChild>
@@ -196,7 +196,7 @@ export function LandingPage() {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="mt-20"
+          className="mx-auto mt-24 max-w-5xl"
         >
           <Card className="gap-0 overflow-hidden rounded-none border-border p-0">
             {/* Monitor header */}
@@ -292,28 +292,28 @@ export function LandingPage() {
       </div>
 
       {/* ── STATS ── */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-5xl px-6 py-24">
         <div className="grid grid-cols-2 border border-border md:grid-cols-4">
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`px-6 py-8 ${i > 0 ? "border-l border-border max-md:border-l-0 max-md:[&:nth-child(even)]:border-l" : ""} ${i >= 2 ? "max-md:border-t" : ""}`}
+              className={`flex flex-col items-center px-6 py-10 text-center ${i > 0 ? "border-l border-border max-md:border-l-0 max-md:[&:nth-child(even)]:border-l" : ""} ${i >= 2 ? "max-md:border-t" : ""}`}
             >
-              <div className="font-mono text-3xl font-bold tracking-tight text-foreground">{s.value}</div>
-              <div className="mt-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">{s.label}</div>
+              <div className="font-mono text-4xl font-bold tracking-tight text-foreground">{s.value}</div>
+              <div className="mt-3 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── FEATURES ── */}
-      <section id="features" className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="mb-12 max-w-xl">
+      <section id="features" className="mx-auto max-w-6xl px-6 pb-28">
+        <div className="mx-auto mb-16 flex max-w-xl flex-col items-center text-center">
           <span className="font-mono text-[10px] tracking-[0.25em] text-primary">/ FEATURES</span>
-          <h2 className="mt-4 text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-[-0.02em] text-foreground">
+          <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-[-0.02em] text-foreground">
             One timeline. Every step.
           </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
             No context-switching between tools. Upload once — transcribe, edit, translate, and export.
           </p>
         </div>
@@ -329,22 +329,22 @@ export function LandingPage() {
             <motion.div
               key={f.title}
               variants={item}
-              className="group bg-background p-6 transition-colors hover:bg-card"
+              className="group bg-background p-8 transition-colors hover:bg-card"
             >
-              <f.icon className="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover:text-primary" />
-              <h3 className="mt-5 text-[15px] font-semibold text-foreground">{f.title}</h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{f.description}</p>
+              <f.icon className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-primary" />
+              <h3 className="mt-6 text-[15px] font-semibold text-foreground">{f.title}</h3>
+              <p className="mt-3 text-[13.5px] leading-[1.75] text-muted-foreground">{f.description}</p>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
       {/* ── WORKFLOW ── */}
-      <section id="workflow" className="border-t border-border py-24">
+      <section id="workflow" className="border-t border-border py-28">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-12 max-w-xl">
+          <div className="mx-auto mb-16 flex max-w-xl flex-col items-center text-center">
             <span className="font-mono text-[10px] tracking-[0.25em] text-primary">/ WORKFLOW</span>
-            <h2 className="mt-4 text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-[-0.02em] text-foreground">
+            <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-[-0.02em] text-foreground">
               Ingest. Cut. Deliver.
             </h2>
           </div>
@@ -355,10 +355,10 @@ export function LandingPage() {
               { n: "02", title: "CUT", desc: "AI transcribes with speaker labels. Fine-tune timing in the timeline editor." },
               { n: "03", title: "DELIVER", desc: "Translate to 30+ languages, export to any format, or burn captions in." },
             ].map((step) => (
-              <div key={step.n} className="bg-background p-8">
-                <span className="font-mono text-[11px] font-bold tracking-[0.2em] text-primary">{step.n}</span>
-                <h3 className="mt-4 font-mono text-[13px] font-semibold tracking-[0.2em] text-foreground">{step.title}</h3>
-                <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{step.desc}</p>
+              <div key={step.n} className="flex flex-col items-center bg-background p-10 text-center">
+                <span className="flex h-11 w-11 items-center justify-center border border-primary/30 bg-primary/5 font-mono text-[11px] font-bold tracking-[0.1em] text-primary">{step.n}</span>
+                <h3 className="mt-6 font-mono text-[13px] font-semibold tracking-[0.2em] text-foreground">{step.title}</h3>
+                <p className="mt-4 max-w-[260px] text-[13.5px] leading-[1.75] text-muted-foreground">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -366,17 +366,15 @@ export function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="border-t border-border py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-            <div>
-              <h2 className="text-[clamp(1.6rem,4vw,2.4rem)] font-bold tracking-[-0.02em] text-foreground">
-                Roll tape.
-              </h2>
-              <p className="mt-2 text-[15px] text-muted-foreground">
-                Free to start. No credit card required.
-              </p>
-            </div>
+      <section className="border-t border-border py-28">
+        <div className="mx-auto flex max-w-2xl flex-col items-center px-6 text-center">
+          <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-[-0.02em] text-foreground">
+            Roll tape.
+          </h2>
+          <p className="mt-4 text-[15px] leading-[1.8] text-muted-foreground">
+            Free to start. No credit card required.
+          </p>
+          <div className="mt-10">
             {isSignedIn ? (
               <Button size="lg" asChild>
                 <Link href="/dashboard">
