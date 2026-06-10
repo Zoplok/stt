@@ -30,7 +30,8 @@ export async function POST(request: NextRequest) {
     const key = `uploads/${userId}/${nanoid()}/${Date.now()}.${ext}`;
 
     if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_S3_BUCKET) {
-      const mockUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/upload/mock`;
+      const origin = request.nextUrl.origin;
+      const mockUrl = `${origin}/api/upload/mock`;
       return Response.json({
         uploadUrl: mockUrl,
         key,
