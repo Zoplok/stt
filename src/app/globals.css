@@ -174,3 +174,26 @@ body {
     @apply font-sans;
   }
 }
+
+/* ── Classic CSS Layout Fallbacks (Forces horizontal centering on all engines) ── */
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
