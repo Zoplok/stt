@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SubtitleAI — AI Subtitle Platform
 
-## Getting Started
+A production-grade AI subtitle generation and editing platform built with Next.js 16, Prisma 7, and Neon PostgreSQL.
 
-First, run the development server:
+## Stack
+
+- **Framework**: Next.js 16 (Turbopack, App Router)
+- **Database**: Neon PostgreSQL via `@prisma/adapter-neon`
+- **ORM**: Prisma 7
+- **Auth**: Clerk
+- **AI**: OpenAI Whisper, Deepgram, AssemblyAI
+- **Styling**: TailwindCSS 4, Framer Motion
+- **State**: Zustand
+- **Storage**: AWS S3 (presigned uploads)
+
+## Setup
 
 ```bash
+# 1. Install dependencies (also runs prisma generate)
+npm install
+
+# 2. Configure environment
+cp .env.example .env
+# Fill in DATABASE_URL, CLERK keys, AI provider keys
+
+# 3. Push schema to database
+npx prisma migrate dev
+
+# 4. Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page |
+| `/dashboard` | Project list |
+| `/projects/[id]` | Subtitle editor |
+| `POST /api/projects/[id]/transcribe` | AI transcription |
+| `POST /api/projects/[id]/export` | Export SRT/VTT/TXT/JSON/ASS |
+| `POST /api/projects/[id]/translate` | AI translation |
+| `POST /api/projects/[id]/ai-tools` | Summary / chapters / keywords |
+| `GET /api/projects/[id]/progress` | SSE job progress |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set all env vars from `.env.example` in your deployment platform. The `postinstall` script runs `prisma generate` automatically.
